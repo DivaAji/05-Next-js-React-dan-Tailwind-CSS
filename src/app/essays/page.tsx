@@ -1,12 +1,13 @@
-import type { Metadata } from 'next';
-import Layout from '../layout';
+import { Metadata } from 'next';
+import { defaultMetadata } from '@/utils/metadata';
+import Layout from '@/components/Layout';
 
 export const metadata: Metadata = {
   title: 'Esai Saya',
   description: 'Kumpulan esai yang telah saya tulis.',
   openGraph: {
-    title: 'Esai Saya',
-    description: 'Kumpulan esai yang telah saya tulis.',
+    images: "https://example.com/essay.jpg",
+    url: "https://example.com/esai",
   },
 };
 
@@ -19,6 +20,12 @@ const essays = [
 ];
 
 export default function Essays() {
+  const layoutMetadata = {
+    ...metadata,
+    image: metadata.openGraph?.images ?? defaultMetadata.openGraph.images,
+    url: metadata.openGraph?.url ?? defaultMetadata.openGraph.url,
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold text-zinc-800 mb-6">Esai Saya</h1>
@@ -33,3 +40,8 @@ export default function Essays() {
     </div>
   );
 }
+
+// Menambahkan layout untuk halaman essays
+Essays.getLayout = (page: React.ReactNode) => {
+  return <Layout>{page}</Layout>;
+};
